@@ -26,7 +26,7 @@ public class Recruitment {
     private String position;
 
     @Column(name = "reward", nullable = false)
-    private BigDecimal bigDecimal;
+    private BigDecimal reward;
 
     @Lob
     @Column(name = "description", nullable = false)
