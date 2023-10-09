@@ -1,0 +1,11 @@
+###
+POST http://localhost:8080/recruitment/v1
+Content-Type: application/json
+
+{
+  "company_id": 1,
+  "position": "백엔드 주니어 개발자",
+  "reward": 1000000,
+  "description": "원티드래에서 백엔드 주니어 개발자를 채용합니다. 자격요건은..",
+  "skill": "Python"
+}
