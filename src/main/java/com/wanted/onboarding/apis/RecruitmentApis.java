@@ -3,7 +3,6 @@ package com.wanted.onboarding.apis;
 import com.wanted.onboarding.apis.request.EnrollRecruitmentRequest;
 import com.wanted.onboarding.usecase.EnrollRecruitment;
 import com.wanted.onboarding.usecase.command.EnrollRecruitmentCommand;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
