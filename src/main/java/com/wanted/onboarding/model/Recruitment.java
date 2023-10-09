@@ -12,6 +12,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -38,4 +39,29 @@ public class Recruitment {
     @ManyToOne
     @JoinColumn(name = "company_id", referencedColumnName = "company_id")
     private Company company;
+
+    private Recruitment(String position, BigDecimal reward, String description, String skill, Company company) {
+        this.position = position;
+        this.reward = reward;
+        this.description = description;
+        this.skill = skill;
+        this.company = company;
+    }
+
+    public static Recruitment of(String position, Long reward, String description, String skill, Company company) {
+        return new Recruitment(position, BigDecimal.valueOf(reward), description, skill, company);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recruitment that = (Recruitment) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
