@@ -48,7 +48,7 @@ public class Recruitment {
         this.company = company;
     }
 
-    public static Recruitment of(String position, Long reward, String description, String skill, Company company) {
+    public static Recruitment of(String position, int reward, String description, String skill, Company company) {
         return new Recruitment(position, BigDecimal.valueOf(reward), description, skill, company);
     }
 
