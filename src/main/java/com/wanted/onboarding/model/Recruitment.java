@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -16,6 +17,7 @@ import java.util.Objects;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Recruitment {
 
     @Id
@@ -50,6 +52,13 @@ public class Recruitment {
 
     public static Recruitment of(String position, int reward, String description, String skill, Company company) {
         return new Recruitment(position, BigDecimal.valueOf(reward), description, skill, company);
+    }
+
+    public void change(String position, Integer reward, String description, String skill) {
+        this.position = Objects.requireNonNullElse(position, this.position);
+        this.reward = reward != null ? BigDecimal.valueOf(reward) : this.reward;
+        this.description = Objects.requireNonNullElse(description, this.description);
+        this.skill = Objects.requireNonNullElse(skill, this.skill);
     }
 
     @Override
