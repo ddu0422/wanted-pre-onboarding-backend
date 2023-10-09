@@ -1,4 +1,4 @@
-###
+### 채용공고 등록
 POST http://localhost:8080/recruitment/v1
 Content-Type: application/json
 
