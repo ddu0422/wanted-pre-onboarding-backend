@@ -2,14 +2,21 @@ package com.wanted.onboarding.apis;
 
 import com.wanted.onboarding.apis.request.EnrollRecruitmentRequest;
 import com.wanted.onboarding.apis.request.ModifyRecruitmentRequest;
+import com.wanted.onboarding.apis.response.FindAllRecruitmentResponse;
+import com.wanted.onboarding.apis.response.RecruitmentResponse;
 import com.wanted.onboarding.usecase.EnrollRecruitment;
+import com.wanted.onboarding.usecase.FindAllRecruitment;
 import com.wanted.onboarding.usecase.ModifyRecruitment;
 import com.wanted.onboarding.usecase.RemoveRecruitment;
 import com.wanted.onboarding.usecase.command.EnrollRecruitmentCommand;
 import com.wanted.onboarding.usecase.command.ModifyRecruitmentCommand;
 import com.wanted.onboarding.usecase.command.RemoveRecruitmentCommand;
+import com.wanted.onboarding.usecase.result.FindAllRecruitmentResult;
+import com.wanted.onboarding.usecase.result.RecruitmentResult;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,8 +26,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/recruitment/v1")
-record RecruitmentApis(EnrollRecruitment enrollRecruitment, ModifyRecruitment modifyRecruitment, RemoveRecruitment removeRecruitment) {
+public class RecruitmentApis {
+
+    private final EnrollRecruitment enrollRecruitment;
+    private final ModifyRecruitment modifyRecruitment;
+    private final RemoveRecruitment removeRecruitment;
+    private final FindAllRecruitment findAllRecruitment;
 
     @PostMapping
     public ResponseEntity<Void> enrollRecruitment(@RequestBody EnrollRecruitmentRequest request) {
@@ -58,6 +71,30 @@ record RecruitmentApis(EnrollRecruitment enrollRecruitment, ModifyRecruitment mo
             .build());
 
         return ResponseEntity.ok()
+            .build();
+    }
+
+    @GetMapping
+    public ResponseEntity<FindAllRecruitmentResponse> findAllRecruitment() {
+        FindAllRecruitmentResult result = findAllRecruitment.execute();
+
+        return ResponseEntity.ok(FindAllRecruitmentResponse.builder()
+            .recruitmentResponses(result.recruitmentResults()
+                .stream()
+                .map(this::changeRecruitmentResponse)
+                .toList())
+            .build());
+    }
+
+    private RecruitmentResponse changeRecruitmentResponse(RecruitmentResult result) {
+        return RecruitmentResponse.builder()
+            .recruitmentId(result.recruitmentId())
+            .companyName(result.companyName())
+            .country(result.country())
+            .region(result.region())
+            .position(result.position())
+            .reward(result.reward())
+            .skill(result.skill())
             .build();
     }
 }

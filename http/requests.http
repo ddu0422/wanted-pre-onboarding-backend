@@ -36,3 +36,6 @@ Content-Type: application/json
 DELETE http://localhost:8080/recruitment/v1/1
 Content-Type: application/json
 CompanyId: 1
+
+### 전체 채용공고 조회
+GET http://localhost:8080/recruitment/v1
