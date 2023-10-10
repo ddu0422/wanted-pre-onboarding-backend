@@ -9,6 +9,7 @@ import com.wanted.onboarding.usecase.exception.CompanyNotFoundException;
 import com.wanted.onboarding.usecase.exception.RecruitmentNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class RemoveRecruitment {
     private final CompanyRepository companyRepository;
     private final RecruitmentRepository recruitmentRepository;
 
+    @Transactional
     public void execute(RemoveRecruitmentCommand command) {
         Company company = companyRepository.findById(command.companyId())
             .orElseThrow(CompanyNotFoundException::new);
