@@ -16,8 +16,7 @@ public class FindAllRecruitment {
     private final RecruitmentRepository recruitmentRepository;
 
     public FindAllRecruitmentResult execute() {
-        List<RecruitmentResult> results = recruitmentRepository.findAll()
-            .stream()
+        List<RecruitmentResult> results = recruitmentRepository.findAll().stream()
             .map(this::changeRecruitmentResult)
             .toList();
 
