@@ -92,4 +92,13 @@ class RecruitmentTest {
 
         assertDoesNotThrow(() -> recruitment.isSame(company2));
     }
+
+    @Test
+    @DisplayName("동일한 ID인 경우 같은 동일한 채용공고이다")
+    void test7() {
+        Recruitment recruitment1 = Recruitment.of("position", 1000, "description", "skill", new Company());
+        Recruitment recruitment2 = Recruitment.of("another position", 1000, "description", "skill", new Company());
+
+        assertFalse(recruitment1.isNotSame(recruitment2));
+    }
 }

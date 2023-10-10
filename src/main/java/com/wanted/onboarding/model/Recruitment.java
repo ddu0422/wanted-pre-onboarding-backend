@@ -70,12 +70,16 @@ public class Recruitment {
         throw new DoNotMatchCompanyException();
     }
 
+    public boolean isNotSame(Recruitment recruitment) {
+        return !Objects.equals(id, recruitment.id);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recruitment that = (Recruitment) o;
-        return id.equals(that.id);
+        return Objects.equals(id, that.id);
     }
 
     @Override
