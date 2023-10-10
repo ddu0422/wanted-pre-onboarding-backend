@@ -45,3 +45,6 @@ GET http://localhost:8080/recruitment/v1/search?keyword=원티드
 
 ### (채용포지션) 특정 키워드로 채용공고 검색
 GET http://localhost:8080/recruitment/v1/search?keyword=Django
+
+### 채용공고 상세페이지 조회
+GET http://localhost:8080/recruitment/v1/1

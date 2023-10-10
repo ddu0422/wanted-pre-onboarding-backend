@@ -3,18 +3,22 @@ package com.wanted.onboarding.apis;
 import com.wanted.onboarding.apis.request.EnrollRecruitmentRequest;
 import com.wanted.onboarding.apis.request.ModifyRecruitmentRequest;
 import com.wanted.onboarding.apis.response.FindAllRecruitmentResponse;
+import com.wanted.onboarding.apis.response.GetRecruitmentResponse;
 import com.wanted.onboarding.apis.response.RecruitmentResponse;
 import com.wanted.onboarding.apis.response.SearchRecruitmentResponse;
 import com.wanted.onboarding.usecase.EnrollRecruitment;
 import com.wanted.onboarding.usecase.FindAllRecruitment;
+import com.wanted.onboarding.usecase.GetRecruitment;
 import com.wanted.onboarding.usecase.ModifyRecruitment;
 import com.wanted.onboarding.usecase.RemoveRecruitment;
 import com.wanted.onboarding.usecase.SearchRecruitment;
 import com.wanted.onboarding.usecase.command.EnrollRecruitmentCommand;
 import com.wanted.onboarding.usecase.command.ModifyRecruitmentCommand;
 import com.wanted.onboarding.usecase.command.RemoveRecruitmentCommand;
+import com.wanted.onboarding.usecase.query.GetRecruitmentQuery;
 import com.wanted.onboarding.usecase.query.SearchRecruitmentQuery;
 import com.wanted.onboarding.usecase.result.FindAllRecruitmentResult;
+import com.wanted.onboarding.usecase.result.GetRecruitmentResult;
 import com.wanted.onboarding.usecase.result.RecruitmentResult;
 import com.wanted.onboarding.usecase.result.SearchRecruitmentResult;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +43,7 @@ public class RecruitmentApis {
     private final RemoveRecruitment removeRecruitment;
     private final FindAllRecruitment findAllRecruitment;
     private final SearchRecruitment searchRecruitment;
+    private final GetRecruitment getRecruitment;
 
     @PostMapping
     public ResponseEntity<Void> enrollRecruitment(@RequestBody EnrollRecruitmentRequest request) {
@@ -113,5 +118,25 @@ public class RecruitmentApis {
                 .map(this::changeRecruitmentResponse)
                 .toList())
             .build();
+    }
+
+    @GetMapping("/{recruitmentId}")
+    public ResponseEntity<GetRecruitmentResponse> getRecruitment(@PathVariable Long recruitmentId) {
+        GetRecruitmentResult result = getRecruitment.execute(GetRecruitmentQuery.builder()
+            .recruitmentId(recruitmentId)
+            .build());
+
+        return ResponseEntity.ok(GetRecruitmentResponse.builder()
+            .recruitmentId(result.recruitmentId())
+            .companyName(result.companyName())
+            .country(result.country())
+            .region(result.region())
+            .position(result.position())
+            .reward(result.reward())
+            .skill(result.skill())
+            .description(result.description())
+            .otherRecruitmentIds(result.otherRecruitmentIds())
+            .build()
+        );
     }
 }
