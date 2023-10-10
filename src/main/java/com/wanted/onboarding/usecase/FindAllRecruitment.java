@@ -6,6 +6,7 @@ import com.wanted.onboarding.usecase.result.FindAllRecruitmentResult;
 import com.wanted.onboarding.usecase.result.RecruitmentResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class FindAllRecruitment {
 
     private final RecruitmentRepository recruitmentRepository;
 
+    @Transactional(readOnly = true)
     public FindAllRecruitmentResult execute() {
         List<RecruitmentResult> results = recruitmentRepository.findAll().stream()
             .map(this::changeRecruitmentResult)
