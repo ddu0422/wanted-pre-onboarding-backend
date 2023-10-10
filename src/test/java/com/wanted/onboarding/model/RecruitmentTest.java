@@ -1,5 +1,6 @@
 package com.wanted.onboarding.model;
 
+import org.assertj.core.api.recursive.assertion.RecursiveAssertionIntrospectionStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -80,5 +81,15 @@ class RecruitmentTest {
             () -> assertEquals("before description", recruitment.getDescription()),
             () -> assertEquals("after skill", recruitment.getSkill())
         );
+    }
+
+    @Test
+    @DisplayName("회사 ID가 동일한 경우 동일한 회사이다")
+    void test6() {
+        Company company1 = new Company();
+        Company company2 = new Company();
+        Recruitment recruitment = Recruitment.of("position", 1000, "description", "skill", company1);
+
+        assertDoesNotThrow(() -> recruitment.isSame(company2));
     }
 }

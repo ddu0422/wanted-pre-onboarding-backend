@@ -1,5 +1,6 @@
 package com.wanted.onboarding.model;
 
+import com.wanted.onboarding.model.exception.DoNotMatchCompanyException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -59,6 +60,14 @@ public class Recruitment {
         this.reward = reward != null ? BigDecimal.valueOf(reward) : this.reward;
         this.description = Objects.requireNonNullElse(description, this.description);
         this.skill = Objects.requireNonNullElse(skill, this.skill);
+    }
+
+    public void isSame(Company company) {
+        if (this.company.equals(company)) {
+            return;
+        }
+
+        throw new DoNotMatchCompanyException();
     }
 
     @Override
