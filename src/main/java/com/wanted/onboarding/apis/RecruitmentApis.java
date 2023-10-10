@@ -36,10 +36,10 @@ record RecruitmentApis(EnrollRecruitment enrollRecruitment, ModifyRecruitment mo
             .build();
     }
 
-    @PutMapping
-    public ResponseEntity<Void> modifyRecruitment(@RequestBody ModifyRecruitmentRequest request) {
+    @PutMapping("/{recruitmentId}")
+    public ResponseEntity<Void> modifyRecruitment(@PathVariable Long recruitmentId, @RequestBody ModifyRecruitmentRequest request) {
         modifyRecruitment.execute(ModifyRecruitmentCommand.builder()
-            .recruitmentId(request.recruitmentId())
+            .recruitmentId(recruitmentId)
             .position(request.position())
             .reward(request.reward())
             .description(request.description())
