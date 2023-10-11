@@ -5,8 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,4 +23,7 @@ public class Member {
 
     @Column(name = "name", length = 200)
     private String name;
+
+    @OneToMany(mappedBy = "member")
+    private List<Applicant> applicants = new ArrayList<>();
 }

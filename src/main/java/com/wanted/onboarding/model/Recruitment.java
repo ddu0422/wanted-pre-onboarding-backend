@@ -9,11 +9,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -42,6 +45,9 @@ public class Recruitment {
     @ManyToOne
     @JoinColumn(name = "company_id", referencedColumnName = "company_id")
     private Company company;
+
+    @OneToMany(mappedBy = "recruitment")
+    private List<Applicant> applicants = new ArrayList<>();
 
     private Recruitment(String position, BigDecimal reward, String description, String skill, Company company) {
         this.position = position;
