@@ -1,9 +1,23 @@
+# 환경설정
+- 환경설정은 Mac 기준으로 작성되었습니다.
+
+```bash
+# docker가 설치되어 있지 않은 경우 docker를 설치해주세요.
+brew install --cask docker
+```
+
+```bash
+docker rm -f $(docker ps -qa)
+docker compose -f environment/docker-compose.yaml up -d
+docker ps
+```
+
 # 사용기술
 |  Framework   |     Spring Boot      | 
 |:------------:|:--------------------:|
 | **Language** |       **Java**       |
 |   **ORM**    | **Spring Data JPA**  |
-|    **DB**    |      **MySQL**       |
+|    **DB**    |    **H2 / MySQL**    |
  |   **Test**   | **JUnit5 / Mockito** |
 
 # 기타사항
