@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -21,4 +22,17 @@ public class Applicant {
     @ManyToOne
     @JoinColumn(name = "recruitment_id")
     private Recruitment recruitment;
+
+    @Builder(access = AccessLevel.PRIVATE)
+    private Applicant(Member member, Recruitment recruitment) {
+        this.member = member;
+        this.recruitment = recruitment;
+    }
+
+    public static Applicant of(Member member, Recruitment recruitment) {
+        return Applicant.builder()
+            .member(member)
+            .recruitment(recruitment)
+            .build();
+    }
 }
