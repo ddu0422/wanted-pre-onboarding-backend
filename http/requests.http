@@ -47,4 +47,13 @@ GET http://localhost:8080/recruitment/v1/search?keyword=원티드
 GET http://localhost:8080/recruitment/v1/search?keyword=Django
 
 ### 채용공고 상세페이지 조회
-GET http://localhost:8080/recruitment/v1/1
+GET http://localhost:8080/recruitment/v1/2
+
+### 특정 채용공고 지원
+POST http://localhost:8080/applicant/v1
+Content-Type: application/json
+
+{
+  "member_id": 1,
+  "recruitment_id": 2
+}

@@ -5,6 +5,7 @@ import com.wanted.onboarding.model.Recruitment;
 import com.wanted.onboarding.repository.ApplicantRepository;
 import com.wanted.onboarding.repository.MemberRepository;
 import com.wanted.onboarding.repository.RecruitmentRepository;
+import com.wanted.onboarding.usecase.command.ApplyRecruitmentCommand;
 import com.wanted.onboarding.usecase.exception.AlreadyAppliedForRecruitmentException;
 import com.wanted.onboarding.usecase.exception.MemberNotFoundException;
 import com.wanted.onboarding.usecase.exception.RecruitmentNotFoundException;
@@ -45,6 +46,9 @@ class ApplyRecruitmentTest {
     @Mock
     private Recruitment recruitment;
 
+    @Mock
+    private ApplyRecruitmentCommand command;
+
     @Nested
     @DisplayName("사용자가 존재하지 않는 경우")
     class NotFoundMember {
@@ -54,7 +58,7 @@ class ApplyRecruitmentTest {
         void test() {
             when(memberRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-            assertThatThrownBy(() -> applyRecruitment.execute())
+            assertThatThrownBy(() -> applyRecruitment.execute(command))
                 .isInstanceOf(MemberNotFoundException.class);
         }
     }
@@ -69,7 +73,7 @@ class ApplyRecruitmentTest {
             when(memberRepository.findById(anyLong())).thenReturn(Optional.of(member));
             when(recruitmentRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-            assertThatThrownBy(() -> applyRecruitment.execute())
+            assertThatThrownBy(() -> applyRecruitment.execute(command))
                 .isInstanceOf(RecruitmentNotFoundException.class);
         }
     }
@@ -85,7 +89,7 @@ class ApplyRecruitmentTest {
             when(recruitmentRepository.findById(anyLong())).thenReturn(Optional.of(recruitment));
             when(applicantRepository.existsByMemberAndRecruitment(member, recruitment)).thenReturn(true);
 
-            assertThatThrownBy(() -> applyRecruitment.execute())
+            assertThatThrownBy(() -> applyRecruitment.execute(command))
                 .isInstanceOf(AlreadyAppliedForRecruitmentException.class);
         }
     }
@@ -101,7 +105,7 @@ class ApplyRecruitmentTest {
             when(recruitmentRepository.findById(anyLong())).thenReturn(Optional.of(recruitment));
             when(applicantRepository.existsByMemberAndRecruitment(member, recruitment)).thenReturn(false);
 
-            applyRecruitment.execute();
+            applyRecruitment.execute(command);
 
             verify(applicantRepository).save(any());
         }

@@ -6,6 +6,7 @@ import com.wanted.onboarding.model.Recruitment;
 import com.wanted.onboarding.repository.ApplicantRepository;
 import com.wanted.onboarding.repository.MemberRepository;
 import com.wanted.onboarding.repository.RecruitmentRepository;
+import com.wanted.onboarding.usecase.command.ApplyRecruitmentCommand;
 import com.wanted.onboarding.usecase.exception.AlreadyAppliedForRecruitmentException;
 import com.wanted.onboarding.usecase.exception.MemberNotFoundException;
 import com.wanted.onboarding.usecase.exception.RecruitmentNotFoundException;
@@ -22,11 +23,11 @@ public class ApplyRecruitment {
     private final ApplicantRepository applicantRepository;
 
     @Transactional
-    public void execute() {
-        Member member = memberRepository.findById(1L)
+    public void execute(ApplyRecruitmentCommand command) {
+        Member member = memberRepository.findById(command.memberId())
             .orElseThrow(MemberNotFoundException::new);
 
-        Recruitment recruitment = recruitmentRepository.findById(1L)
+        Recruitment recruitment = recruitmentRepository.findById(command.recruitmentId())
             .orElseThrow(RecruitmentNotFoundException::new);
 
         checkAppliedRecruitment(member, recruitment);
