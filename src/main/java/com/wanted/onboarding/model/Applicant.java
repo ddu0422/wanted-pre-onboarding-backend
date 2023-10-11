@@ -7,12 +7,21 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+    uniqueConstraints = {
+        @UniqueConstraint(name = "idx_applicant_u1", columnNames = {"member_id", "recruitment_id"})
+    }
+)
 public class Applicant {
 
     @Id
@@ -39,5 +48,18 @@ public class Applicant {
             .member(member)
             .recruitment(recruitment)
             .build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Applicant applicant = (Applicant) o;
+        return Objects.equals(member, applicant.member) && Objects.equals(recruitment, applicant.recruitment);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(member, recruitment);
     }
 }
