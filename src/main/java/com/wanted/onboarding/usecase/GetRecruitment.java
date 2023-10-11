@@ -8,6 +8,7 @@ import com.wanted.onboarding.usecase.query.GetRecruitmentQuery;
 import com.wanted.onboarding.usecase.result.GetRecruitmentResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class GetRecruitment {
 
     private final RecruitmentRepository recruitmentRepository;
 
+    @Transactional(readOnly = true)
     public GetRecruitmentResult execute(GetRecruitmentQuery query) {
         Recruitment recruitment = recruitmentRepository.findById(query.recruitmentId())
             .orElseThrow(RecruitmentNotFoundException::new);
